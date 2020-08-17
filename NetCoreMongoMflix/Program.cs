@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -6,10 +7,13 @@ namespace NetCoreMongoMflix
 {
     class Program
     {
+        private static readonly IConfiguration Configuration = new ConfigurationBuilder()
+                                                                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                                                                .Build();
+
         static void Main(string[] args)
         {
-
-            var connString = "mongodb+srv://m220student:m220password@mflix.abmld.azure.mongodb.net/test?retryWrites=true&w=majority";
+            var connString = Configuration["Mongo:ConnectionString"];
 
             var client = new MongoClient(connString);
 
